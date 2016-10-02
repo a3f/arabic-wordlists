@@ -11,8 +11,8 @@ use Lingua::AR::Tashkeel v0.004 'strip';
 use autodie ':all';
 
 local $/; $, = "\n";
-my ($filename, @words, %freq, %stripped) = $ARGV[0] // 'stdin';
-@words = split ' ', <> =~ s/[\P{InArabic}\p{Punct}\d]+/ /gurx;
+my ($content, $filename, @words, %freq, %stripped) = (<>, $ARGV[0] // 'stdin');
+@words = split ' ', $content =~ s/[\P{InArabic}\p{Punct}\d]+/ /gux;
 $freq{$stripped{$_} ||= strip $_}++ foreach @words;
 
 open my $fh, '>', "$filename.freqlist";
